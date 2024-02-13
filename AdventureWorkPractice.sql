@@ -7,19 +7,19 @@ Create a query with the following columns:
 4. UnitPrice, from Purchasing.PurchaseOrderDetail
 5. LineTotal, from Purchasing.PurchaseOrderDetail
 6. OrderDate, from Purchasing.PurchaseOrderHeader
-7. A derived column, aliased as “OrderSizeCategory”, calculated via CASE logic as follows:
-o When OrderQty > 500, the logic should return “Large”
-o When OrderQty > 50 but <= 500, the logic should return “Medium”
-o Otherwise, the logic should return “Small”
-8. The “Name” field from Production.Product, aliased as “ProductName”
-9. The “Name” field from Production.ProductSubcategory, aliased as “Subcategory”; if this value is
-NULL, return the string “None” instead
-10. The “Name” field from Production.ProductCategory, aliased as “Category”; if this value is NULL,
-return the string “None” instead
+7. A derived column, aliased as â€œOrderSizeCategoryâ€, calculated via CASE logic as follows:
+o When OrderQty > 500, the logic should return â€œLargeâ€
+o When OrderQty > 50 but <= 500, the logic should return â€œMediumâ€
+o Otherwise, the logic should return â€œSmallâ€
+8. The â€œNameâ€ field from Production.Product, aliased as â€œProductNameâ€
+9. The â€œNameâ€ field from Production.ProductSubcategory, aliased as â€œSubcategoryâ€; if this value is
+NULL, return the string â€œNoneâ€ instead
+10. The â€œNameâ€ field from Production.ProductCategory, aliased as â€œCategoryâ€; if this value is NULL,
+return the string â€œNoneâ€ instead
 Only return rows where the order date occurred in December of ANY year. The
 MONTH function should provide a helpful shortcut here.
-
 */
+
 SELECT A.[PurchaseOrderID]
       ,A.[PurchaseOrderDetailID]
       ,A.[OrderQty]
@@ -55,12 +55,12 @@ WHERE MONTH(B.[OrderDate]) = 12
 The Sales data in our AdventureWorks database is structured almost identically to our Purchasing data.
 It is so similar, in fact, that we can actually align columns from several of the Sales and Purchasing tables
 to create a unified dataset in which some rows pertain to Sales, and some to Purchasing. Note that we
-are talking about combining data by columns rather than by rows here – think UNION.
-So with that said, your second challenge is to enhance your query from Challenge 1 by “stacking” it with
+are talking about combining data by columns rather than by rows here â€“ think UNION.
+So with that said, your second challenge is to enhance your query from Challenge 1 by â€œstackingâ€ it with
 the corresponding Sales data. That may seem daunting, but it is actually WAY easier than it sounds! It
 turns out that our two Purchasing tables from the Exercise 1 query map to an equivalent Sales table:
-• Purchasing.PurchaseOrderDetail maps to Sales.SalesOrderDetail
-• Purchasing.PurchaseOrderHeader maps to Sales.SalesOrderHeader
+â€¢ Purchasing.PurchaseOrderDetail maps to Sales.SalesOrderDetail
+â€¢ Purchasing.PurchaseOrderHeader maps to Sales.SalesOrderHeader
 */ 
 
 SELECT 
@@ -132,28 +132,28 @@ ORDER BY [OrderDate] DESC;
 Create a query with the following columns:
 11. BusinessEntityID, from Person.Person
 12. PersonType, from Person.Person
-13. A derived column, aliased as “FullName”, that combines the first, last, and middle names from
+13. A derived column, aliased as â€œFullNameâ€, that combines the first, last, and middle names from
 Person.Person.
 o There should be exactly one space between each of the names.
-o If “MiddleName” is NULL and you try to “add” it to the other two names, the result will
-be NULL, which isn’t what you want.
+o If â€œMiddleNameâ€ is NULL and you try to â€œaddâ€ it to the other two names, the result will
+be NULL, which isnâ€™t what you want.
 o You could use ISNULL to return an empty string if the middle name is NULL, but then
-you’d end up with an extra space between first and last name – a space we would have
+youâ€™d end up with an extra space between first and last name â€“ a space we would have
 needed if we had a middle name to work with.
 o So what we really need is to apply conditional, IF/THEN type logic; if middle name is
 NULL, we just need a space between first name and last name. If not, then we need a
 space, the middle name, and then another space. See if you can accomplish this with a
 CASE statement.
-14. The “AddressLine1” field from Person.Address; alias this as “Address”.
-15. The “City” field from Person.Address
-16. The “PostalCode” field from Person.Address
-17. The “Name” field from Person.StateProvince; alias this as “State”.
-18. The “Name” field from Person.CountryRegion; alias this as “Country”.
-Only return rows where person type (from Person.Person) is “SP”, OR the postal code begins with a
-“9” AND the postal code is exactly 5 charact
-Only return rows where person type (from Person.Person) is “SP”, OR the postal code begins with a
-“9” AND the postal code is exactly 5 characters long AND the country (i.e., “Name” from
-Person.CountryRegion) is “United States”
+14. The â€œAddressLine1â€ field from Person.Address; alias this as â€œAddressâ€.
+15. The â€œCityâ€ field from Person.Address
+16. The â€œPostalCodeâ€ field from Person.Address
+17. The â€œNameâ€ field from Person.StateProvince; alias this as â€œStateâ€.
+18. The â€œNameâ€ field from Person.CountryRegion; alias this as â€œCountryâ€.
+Only return rows where person type (from Person.Person) is â€œSPâ€, OR the postal code begins with a
+â€œ9â€ AND the postal code is exactly 5 charact
+Only return rows where person type (from Person.Person) is â€œSPâ€, OR the postal code begins with a
+â€œ9â€ AND the postal code is exactly 5 characters long AND the country (i.e., â€œNameâ€ from
+Person.CountryRegion) is â€œUnited Statesâ€
 */
 
 SELECT A.[BusinessEntityID]
@@ -186,23 +186,23 @@ WHERE (LEFT(C.[PostalCode], 1) = '9' AND LEN(C.[PostalCode]) = 5 AND E.[Name] = 
 /*
 Enhance your query from Exercise 3 as follows:
 1. Join in the HumanResources.Employee table to Person.Person on BusinessEntityID. Note that
-many people in the Person.Person table are not employees, and we don’t want to limit our
+many people in the Person.Person table are not employees, and we donâ€™t want to limit our
 output to just employees, so choose your join type accordingly.
-2. Add the “JobTitle” field from HumanResources.Employee to our output. If it is NULL (as it will be
-for people in our Person.Person table who are not employees, return “None”.
-3. Add a derived column, aliased as “JobCategory”, that returns different categories based on the
-value in the “JobTitle” column as follows:
-o If the job title contains the words “Manager”, “President”, or “Executive”, return
-“Management”. Applying wildcards with LIKE could be a helpful approach here.
-o If the job title contains the word “Engineer”, return “Engineering”.
-o If the job title contains the word “Production”, return “Production”.
-o If the job title contains the word “Marketing”, return “Marketing”.
-o If the job title is NULL, return “NA”.
-o If the job title is one of the following exact strings (NOT patterns), return “Human
-Resources”: “Recruiter”, “Benefits Specialist”, OR “Human Resources Administrative
-Assistant”. You could use a series of ORs here, but the IN keyword could be a nice
+2. Add the â€œJobTitleâ€ field from HumanResources.Employee to our output. If it is NULL (as it will be
+for people in our Person.Person table who are not employees, return â€œNoneâ€.
+3. Add a derived column, aliased as â€œJobCategoryâ€, that returns different categories based on the
+value in the â€œJobTitleâ€ column as follows:
+o If the job title contains the words â€œManagerâ€, â€œPresidentâ€, or â€œExecutiveâ€, return
+â€œManagementâ€. Applying wildcards with LIKE could be a helpful approach here.
+o If the job title contains the word â€œEngineerâ€, return â€œEngineeringâ€.
+o If the job title contains the word â€œProductionâ€, return â€œProductionâ€.
+o If the job title contains the word â€œMarketingâ€, return â€œMarketingâ€.
+o If the job title is NULL, return â€œNAâ€.
+o If the job title is one of the following exact strings (NOT patterns), return â€œHuman
+Resourcesâ€: â€œRecruiterâ€, â€œBenefits Specialistâ€, OR â€œHuman Resources Administrative
+Assistantâ€. You could use a series of ORs here, but the IN keyword could be a nice
 shortcut.
-o As a default case when none of the other conditions are true, return “Other”.
+o As a default case when none of the other conditions are true, return â€œOtherâ€.
 */
 
 SELECT A.[BusinessEntityID]
